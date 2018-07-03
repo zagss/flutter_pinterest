@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
+import 'package:flutter/cupertino.dart';
+import '../pages/home.dart';
+import '../pages/explor.dart';
+import '../pages/message.dart';
+import '../pages/me.dart';
 
 class Index extends StatefulWidget {
   @override
@@ -10,20 +14,21 @@ class _IndexState extends State<Index> with TickerProviderStateMixin {
   int _tabIndex = 0;
 
   var tabImages;
+  var _body;
   var appBarTitles = ['主页', '探索', '通知', '已收藏'];
   final tabTextStyleNormal = new TextStyle(color: const Color(0xff969696));
-  final tabTextStyleSelected = new TextStyle(color: const Color(0xff63ca6c));
+  final tabTextStyleSelected = new TextStyle(color: const Color(0xff555555));
 
   Image getTabImage(path) {
-    return new Image.asset(path, width: 20.0, height: 20.0);
+    return new Image.asset(path, width: 23.0, height: 23.0);
   }
 
   void initData() {
     if (tabImages == null) {
       tabImages = [
         [
-          getTabImage('images/painterest.png'),
-          getTabImage('images/painterest_active.png')
+          getTabImage('images/pinterest.png'),
+          getTabImage('images/pinterest_active.png')
         ],
         [
           getTabImage('images/explor.png'),
@@ -39,6 +44,15 @@ class _IndexState extends State<Index> with TickerProviderStateMixin {
         ]
       ];
     }
+    _body = new IndexedStack(
+      children: <Widget>[
+        new HomePage(),
+        new ExplorPage(),
+        new MessagePage(),
+        new MePage()
+      ],
+      index: _tabIndex
+    );
   }
 
   TextStyle getTabTextStyle(int curIndex) {
@@ -62,7 +76,7 @@ class _IndexState extends State<Index> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     initData();
-    final BottomNavigationBar bottomNavigationBar = new BottomNavigationBar(
+    final bottomNavigationBar = new CupertinoTabBar(
       items: <BottomNavigationBarItem>[
         new BottomNavigationBarItem(
           icon: getTabIcon(0),
@@ -80,14 +94,19 @@ class _IndexState extends State<Index> with TickerProviderStateMixin {
           icon: getTabIcon(3),
           title: getTabTitle(3)
         ),
-      ]
+      ],
+      currentIndex: _tabIndex,
+      onTap: (index) {
+        setState((){
+          _tabIndex = index;
+        });
+      },
+      backgroundColor: Color(0xfffffff),
     );
 
     return new MaterialApp(
       home: new Scaffold(
-        body: new Center(
-          child: new Text('Painterest')
-        ),
+        body: _body,
         bottomNavigationBar: bottomNavigationBar,
       )
     );
