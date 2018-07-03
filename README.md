@@ -1,4 +1,4 @@
-# myapp
+# flutter_pinterest
 
 A new Flutter project.
 
@@ -6,3 +6,4 @@ A new Flutter project.
 
 For help getting started with Flutter, view our online
 [documentation](https://flutter.io/).
+

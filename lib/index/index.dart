@@ -9,11 +9,16 @@ class _IndexState extends State<Index> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final BottomNavigationBar bottomNavigationBar = new BottomNavigationBar(
+      
+    );
+
     return new MaterialApp(
       home: new Scaffold(
         body: new Center(
           child: new Text('Painterest')
         ),
+        bottomNavigationBar: bottomNavigationBar,
       )
     );
   }
