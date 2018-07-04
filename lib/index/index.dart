@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import '../global_config.dart';
 import '../pages/home.dart';
-import '../pages/explor.dart';
+import '../pages/search.dart';
 import '../pages/message.dart';
 import '../pages/me.dart';
 
@@ -47,7 +48,7 @@ class _IndexState extends State<Index> with TickerProviderStateMixin {
     _body = new IndexedStack(
       children: <Widget>[
         new HomePage(),
-        new ExplorPage(),
+        new SearchPage(),
         new MessagePage(),
         new MePage()
       ],
@@ -108,7 +109,7 @@ class _IndexState extends State<Index> with TickerProviderStateMixin {
       home: new Scaffold(
         body: _body,
         bottomNavigationBar: bottomNavigationBar,
-      )
+      ),
     );
   }
 }
