@@ -16,7 +16,9 @@ class _MessagePageState extends State<MessagePage> {
           title: new Text('MEssage Page'),
         ),
         body: new Center(
-          child: new Text('MEssage'),
+          child: new ListView.builder(
+            itemBuilder: (_, index) => new Text('painterestpainterpainterpainterpainterpainter'),
+          ),
         )
       )
     );

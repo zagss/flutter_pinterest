@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+
+import '../pages/home.dart';
+import '../pages/search.dart';
+import '../pages/message.dart';
+import '../pages/me.dart';
 
 class PinterestApp extends StatelessWidget {
   @override
@@ -20,6 +24,7 @@ class PinterestScreen extends StatefulWidget {
 class _PinterestScreenState extends State<PinterestScreen> with SingleTickerProviderStateMixin{
   int _tabIndex = 0;
   var tabImages;
+  var _body;
   var appBarTitles = ['主页', '探索', '通知', '已收藏'];
   final tabTextStyleNormal = new TextStyle(color: const Color(0xff969696), fontSize: 10.0);
   final tabTextStyleSelected = new TextStyle(color: const Color(0xff555555), fontSize: 10.0);
@@ -50,14 +55,22 @@ class _PinterestScreenState extends State<PinterestScreen> with SingleTickerProv
       ]
     ];
 
-    _controller =
-    new TabController(initialIndex: _tabIndex, length: 4, vsync: this);
+    _body = new IndexedStack(
+      children: <Widget>[
+        new HomePage(),
+        new SearchPage(),
+        new MessagePage(),
+        new MePage()
+      ],
+      index: _tabIndex
+    );
+
+    _controller = new TabController(initialIndex: _tabIndex, length: 4, vsync: this);
     onChanged = () {
       setState(() {
         _tabIndex = this._controller.index;
       });
     };
-
     _controller.addListener(onChanged);
   }
 
@@ -86,7 +99,7 @@ class _PinterestScreenState extends State<PinterestScreen> with SingleTickerProv
     return new Text(appBarTitles[curIndex], style: getTabTextStyle(curIndex));
   }
 
-  Widget buildButtonColumn(int index, String label) {
+  Widget buildButtonColumn(int index) {
     return new Container(
       padding: new EdgeInsets.only(top: 8.0, bottom: 6.0),
       child: new Column(
@@ -115,10 +128,10 @@ class _PinterestScreenState extends State<PinterestScreen> with SingleTickerProv
           labelColor: Colors.black,
           unselectedLabelColor: Colors.green,
           tabs: <Widget>[
-            buildButtonColumn(0, '主页'),
-            buildButtonColumn(1, '探索'),
-            buildButtonColumn(2, '通知'),
-            buildButtonColumn(3, '已收藏'),
+            buildButtonColumn(0),
+            buildButtonColumn(1),
+            buildButtonColumn(2),
+            buildButtonColumn(3),
           ],
         )
       ),
@@ -129,9 +142,6 @@ class _PinterestScreenState extends State<PinterestScreen> with SingleTickerProv
   Widget build(BuildContext context) {
 
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Pinterest'),
-      ),
       body: new Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
@@ -140,8 +150,17 @@ class _PinterestScreenState extends State<PinterestScreen> with SingleTickerProv
           //     itemBuilder: (_, index) => new Text('painter'),
           //   )
           // ),
-          new ListView.builder(
-            itemBuilder: (_, index) => new Text('painterestpainterpainterpainterpainterpainter'),
+          // new ListView.builder(
+          //   itemBuilder: (_, index) => new Text('painterestpainterpainterpainterpainterpainter'),
+          // ),
+          new TabBarView(
+            children: <Widget>[
+              new HomePage(),
+              new SearchPage(),
+              new MessagePage(),
+              new MePage()
+            ],
+            controller: _controller,
           ),
           new Container(
             // decoration: new BoxDecoration(
@@ -152,8 +171,19 @@ class _PinterestScreenState extends State<PinterestScreen> with SingleTickerProv
             child: _navigationBar(),
           )
         ],
-      )
-      // bottomNavigationBar: bottomNavigationBar,
+      ),
+      // bottomNavigationBar: new Stack(
+      //   children: <Widget>[
+      //     new Container(
+      //       height: 56.0,
+      //       color: Theme.of(context).cardColor.withOpacity(0.6),
+      //       // decoration: new BoxDecoration(
+      //       //   color: Theme.of(context).cardColor.withOpacity(0.6),
+      //       // ),
+      //       child: _navigationBar(),
+      //     ),
+      //   ],
+      // )
     );
   }
 }
